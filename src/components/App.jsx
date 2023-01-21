@@ -1,65 +1,25 @@
-import { data } from 'data/users';
-import { Component } from 'react';
-import { UsersList } from './UsersList/UsersList';
-import { Button } from './Button/Button';
-import { AddUserForm } from './AddUserForm/AddUserForm';
-import { nanoid } from 'nanoid';
-// npm i nanoid
-// npm i
-export class App extends Component {
-  state = {
-    users: [...data],
-    isFormShown: false,
-  };
+import { Route, Routes } from 'react-router-dom';
+import { SharedLayout } from './SharedLayot/SharedLayout';
+import { Events } from 'pages/Events';
+import { EventDetails } from './EventsDetails/EventDetails';
+import { EventSubPage } from './EventSubPage/EventSubPage';
+import { Search } from 'pages/Search';
 
-  deleteUser = id => {
-    this.setState(prevState => ({
-      users: prevState.users.filter(user => user.id !== id),
-    }));
-  };
+export const App = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<SharedLayout />}>
+        <Route index element={<p>hi</p>} />
+        <Route path="events" element={<Events />}>
+          <Route path=":eventId" element={<EventSubPage />} />
+        </Route>
+        <Route path="search" element={<Search />}>
+          <Route path=":eventId" element={<EventSubPage />} />
+        </Route>
+      </Route>
 
-  openForm = () => {
-    this.setState({ isFormShown: true });
-  };
-
-  addUser = obj => {
-    const newUser = {
-      id: nanoid(),
-      ...obj,
-    };
-    this.setState(prevState => ({
-      users: [...prevState.users, newUser],
-      isFormShown: false,
-    }));
-  };
-
-  toggleStatus = id => {
-    this.setState(prevState => ({
-      users: prevState.users.map(user => {
-        if (user.id !== id) {
-          return user;
-        } else {
-          return { ...user, hasJob: !user.hasJob };
-        }
-      }),
-    }));
-  };
-
-  render() {
-    const { users, isFormShown } = this.state;
-    return (
-      <>
-        <UsersList
-          users={users}
-          deleteUser={this.deleteUser}
-          toggleHasJob={this.toggleStatus}
-        />
-        {isFormShown ? (
-          <AddUserForm addUser={this.addUser} />
-        ) : (
-          <Button text="Add user" clickHandler={this.openForm} />
-        )}
-      </>
-    );
-  }
-}
+      <Route path="/events/:eventId/details" element={<EventDetails />} />
+      <Route path="/search/:eventId/details" element={<EventDetails />} />
+    </Routes>
+  );
+};
