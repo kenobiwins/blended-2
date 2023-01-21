@@ -1,7 +1,7 @@
 import { EventsList } from 'components/EventsList/EventsList';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { fetchEvents } from 'services/API';
 
 export const Events = () => {

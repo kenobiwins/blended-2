@@ -1,6 +1,6 @@
 import { Container } from 'BaseStyled/Container.styled';
 import { Suspense } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import {  Outlet } from 'react-router-dom';
 import { NavItem } from './SharedLayout.styled';
 
 const NavItems = [
